@@ -27,11 +27,6 @@ from generate_series(1,1000000) i;
 
 \timing on
 
-set vitesse.enable=0;
-select avg(f), sum(f) from tt;
-select avg(n), sum(n) from tt;
-
-set vitesse.enable=1;
 select avg(f), sum(f) from tt;
 select avg(n), sum(n) from tt;
 select avg(d64), sum(d64) from tt;
