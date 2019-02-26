@@ -15,10 +15,10 @@ create table tt as
 
 \timing on
 
-set vitesse.enable=0;
+set vitesse_enable=0;
 select count(*), sum(i), avg(i) from tt;
 
-set vitesse.enable=1;
+set vitesse_enable=1;
 select count(*), sum(i), avg(i) from tt;
 
 EOF
