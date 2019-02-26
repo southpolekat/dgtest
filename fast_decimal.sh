@@ -6,7 +6,7 @@ createdb $db
 
 dg setup -decimal $db
 
-psql -d $db << EOF 
+psql -a -d $db << EOF 
 
 create table tt (
 	i	integer,
@@ -25,7 +25,6 @@ insert into tt select
 	(i+0.123)::numeric(15,3)
 from generate_series(1,1000000) i;
 
-\x
 \timing on
 
 set vitesse.enable=0;
