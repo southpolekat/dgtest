@@ -1,6 +1,6 @@
 #!/bin/bash
 
-db=dgtest_$$
+db=dgtest$$
 
 createdb $db
 
