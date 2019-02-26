@@ -20,3 +20,7 @@ Bash scripts to test Deepgreen DB
 
 * [JSON](http://vitessedata.com/products/deepgreen-db/features/deepgreen-db-json/)
  * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/json.sh | bash
+
+## [Xdrive](http://vitessedata.com/products/deepgreen-db/xdrive/)
+* [FX Plugin](http://vitessedata.com/products/deepgreen-db/xdrive/plugin-fs/)
+ * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/xdrive_fs | bash
