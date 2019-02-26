@@ -14,7 +14,6 @@ create table tt (
 	n	numeric(15, 3)
 )
 distributed by (i);
-"
 
 insert into tt select 
 	i,
