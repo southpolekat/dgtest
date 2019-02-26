@@ -7,6 +7,7 @@ sql=/tmp/dgtest$$.sql
 echo "\timing on" > $sql
 
 compresstypes=(none zlib zstd lz4)
+max=1000000
 
 for ct in ${compresstypes[*]} 
 do
@@ -21,7 +22,7 @@ create temp table tt_$ct (
     with (appendonly=true, orientation=column)
 distributed by (i);
 
-insert into tt_$ct select i, 'user '||i from generate_series(1, 1000000) i;
+insert into tt_$ct select i, 'user '||i from generate_series(1, $max) i;
 
 select sum(length(t)) from tt_$ct;
 
