@@ -1,38 +1,26 @@
 #!/bin/bash
 
-function info {
-   echo "[INFO] $@"
-}
+db=dgtest_$$
 
-pwd=$(pwd)
-
-db=db_$$
-tb=tb_$$
-
-info createdb $db
 createdb $db
 
-psql -d $db -c "show vitesse.version;"
+psql -d $db << EOF
 
-info create table $tb 
-psql -d $db -c "create table $tb as
+show vitesse.version;
+
+create table tt as
     select i::bigint as i, i::double precision as f
     from generate_series(1, 1000000) i
-    distributed by (i);"
+    distributed by (i);
 
-info set vitesse.enable=0 and test
-psql -d $db << EOF
+\timing on
+
 set vitesse.enable=0;
-\timing on
-select count(*), sum(i), avg(i) from $tb;
-EOF
+select count(*), sum(i), avg(i) from tt;
 
-info set vitesse.enable=1 and test
-psql -d $db << EOF
 set vitesse.enable=1;
-\timing on
-select count(*), sum(i), avg(i) from $tb;
+select count(*), sum(i), avg(i) from tt;
+
 EOF
 
-info dropdb $db
 dropdb $db
