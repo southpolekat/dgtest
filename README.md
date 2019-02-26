@@ -18,3 +18,5 @@ Bash scripts to test Deepgreen DB
 * [Sampling](http://vitessedata.com/products/deepgreen-db/features/deepgreen-db-sample/)
  * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/sampling.sh | bash
 
+* [JSON](http://vitessedata.com/products/deepgreen-db/features/deepgreen-db-json/)
+ * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/json.sh | bash
