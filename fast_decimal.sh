@@ -4,6 +4,8 @@ db=dgtest$$
 
 createdb $db
 
+dg setup -decimal $db
+
 psql -d $db << EOF 
 
 create table tt (
