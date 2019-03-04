@@ -15,7 +15,9 @@ name = "local_csv"
 argv = ["xdr_fs/xdr_fs", "csv", "/tmp/data"]
 EOF
 
-xdrctl stop /tmp/xdrive.toml
+gpssh -h sdw1 'pkill -9 xdrive'
+gpssh -h sdw2 'pkill -9 xdrive'
+
 xdrctl deploy /tmp/xdrive.toml
 xdrctl start /tmp/xdrive.toml
 
