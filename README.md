@@ -31,4 +31,8 @@ Bash scripts to test Deepgreen DB
 
 ## Modules
 ### pgcrypto
-* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/pgcrypto_basic.sh | bash
+#### crypt, gen_salt, md5
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/pgcrypto_crypt.sh | bash
+
+#### encrypt, decrypt
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/pgcrypto_encrypt.sh | bash
