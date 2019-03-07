@@ -9,5 +9,5 @@ Bash scripts to test Deepgreen DB
 * [Xdrive](https://github.com/southpolekat/dgtest/tree/master/xdrive)
 * [SQL Commands](https://github.com/southpolekat/dgtest/tree/master/sqlcmd)
 * Modules:
-  * [pgcrypto](https://github.com/southpolekat/dgtest/tree/master/features)
-  * [postgis](https://github.com/southpolekat/dgtest/tree/master/features)
+  * [pgcrypto](https://github.com/southpolekat/dgtest/tree/master/pgcrypto)
+  * [postgis](https://github.com/southpolekat/dgtest/tree/master/postgis)
