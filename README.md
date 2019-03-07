@@ -30,7 +30,7 @@ Bash scripts to test Deepgreen DB
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/sql_copy.sh | bash
 
 ## Modules
-### pgcrypto
+### pgcrypto [(Ref)](https://www.postgresonline.com/journal/archives/165-Encrypting-data-with-pgcrypto.html)
 #### crypt, gen_salt, md5
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/pgcrypto_crypt.sh | bash
 
