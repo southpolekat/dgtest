@@ -35,6 +35,9 @@ Bash scripts to test Deepgreen DB
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/pgcrypto_crypt.sh | bash
 #### encrypt, decrypt
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/pgcrypto_encrypt.sh | bash
+#### pgp_pub_encrypt, pgp_pub_decrypt, dearmor, pgp_key_id
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/pgcrypto_pgp.sh | bash
 #### References:
 * https://www.postgresonline.com/journal/archives/165-Encrypting-data-with-pgcrypto.html
+* https://gpdb.docs.pivotal.io/5170/best_practices/encryption.html
 * https://yq.aliyun.com/articles/228268
