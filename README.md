@@ -28,3 +28,7 @@ Bash scripts to test Deepgreen DB
 ## SQL Commands
 ### COPY
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/sql_copy.sh | bash
+
+## Modules
+### pgcrypto
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/pgcrypto_basic.sh | bash
