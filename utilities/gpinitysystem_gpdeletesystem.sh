@@ -2,7 +2,7 @@
 
 master_dir=/data/master
 data_dir=/data/primary
-master_port=6432
+master_port=5432
 
 cat > hostfile << END
 sdw1
