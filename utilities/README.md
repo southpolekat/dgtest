@@ -11,3 +11,5 @@ Bash scripts to test Deepgreen DB
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/utilities/gpcrondump_incremental.sh | bash
 ### analyzedb 
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/utilities/test_analyzedb.sh | bash
+### gpinitstandby 
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/utilities/test_gpinitstandby..sh | bash
