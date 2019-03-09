@@ -12,4 +12,7 @@ Bash scripts to test Deepgreen DB
 ### analyzedb 
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/utilities/test_analyzedb.sh | bash
 ### gpinitstandby 
-* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/utilities/test_gpinitstandby..sh | bash
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/utilities/test_gpinitstandby.sh | bash
+### gpactivatestandby 
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/utilities/test_gpactivatestandby.sh | bash
+
