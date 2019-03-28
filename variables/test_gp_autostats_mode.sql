@@ -21,3 +21,8 @@ insert into tt (i,f) values (102, 102), (103, 104);
 select * from pg_stat_operations where objname = 'tt';
 
 drop schema dgtest cascade;
+
+-- Note:
+-- gpconfig -c optimizer_analyze_root_partition -v on --masteronly
+-- ANALYZE ROOTPARTITION foo;
+-- ANALYZE vs analyzedb 
