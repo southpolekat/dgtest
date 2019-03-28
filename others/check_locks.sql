@@ -29,4 +29,4 @@ where
     l.database = d.oid and
     l.pid = s.procpid and
     l.relation = c.oid and
-    not l.granted
+    not l.granted;
