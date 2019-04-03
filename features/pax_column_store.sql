@@ -1,9 +1,7 @@
-#!/bin/bash
 
-db=dgtest$$
-createdb $db
+create schema dgtest;
 
-psql -a -d $db << EOF
+set search_path = dgtest;
 
 create table paxtab (i bigint, f double precision)
     with (appendonly=true, compresstype=pax)
@@ -14,8 +12,8 @@ create table coltab (i bigint, f double precision)
 
 \timing on
 
-insert into paxtab select i, i from generate_series(1, 10000000) i;
-insert into coltab select i, i from generate_series(1, 10000000) i;
+insert into paxtab select i, i from generate_series(1, 1000000) i;
+insert into coltab select i, i from generate_series(1, 1000000) i;
 
 select count(*) from paxtab;
 select count(*) from coltab;
@@ -23,9 +21,7 @@ select count(*) from coltab;
 select sum(i), sum(f) from paxtab;
 select sum(i), sum(f) from coltab;
 
-select * from paxtab where i = 1000000;
-select * from coltab where i = 1000000;
+select * from paxtab where i = 1000;
+select * from coltab where i = 1000;
 
-EOF
-
-dropdb $db
+drop schema dgtest cascade;
