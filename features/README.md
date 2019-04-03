@@ -10,7 +10,7 @@ Bash scripts to test Deepgreen DB
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/features/compression.sh | bash
 
 ### [PAX column store](http://vitessedata.com/products/deepgreen-db/features/deepgreen-db-pax/)
-* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/features/pax_column_store.sh | bash
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/features/pax_column_store.sql | psql -a 
 
 ### [Sampling](http://vitessedata.com/products/deepgreen-db/features/deepgreen-db-sample/)
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/features/sampling.sh | bash
