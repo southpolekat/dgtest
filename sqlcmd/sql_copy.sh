@@ -8,8 +8,8 @@ createdb $db
 
 cat <<END >> $fi
 beer,50
-tea,20
 coffee,30
+tea,20
 END
 
 psql -a -d $db << END
@@ -26,8 +26,10 @@ select * from drinks;
 
 COPY drinks to '$fo' DELIMITER ',';
 
-
 END
+
+sort -o $fi $fi
+sort -o $fo $fo
 
 diff -s $fi $fo
 
