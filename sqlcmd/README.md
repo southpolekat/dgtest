@@ -9,3 +9,5 @@ Bash scripts to test Deepgreen DB
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/sqlcmd/ext_tbl_file.sh | bash
 ### EXTERNAL WEB TABLE, EXECUTE 
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/sqlcmd/ext_web_tbl_execute.sh | bash
+### Append-Optimized Table 
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/sqlcmd/ao_table.sql | psql -a 
