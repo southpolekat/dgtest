@@ -16,7 +16,7 @@ Bash scripts to test Deepgreen DB
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/others/kill_idle_proc.sh | bash
 
 ### PL-gsql 
-* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/others/pl_gpsql | bash
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/others/pl_pgsql.sh | bash
 
 ### Polymorphic Storage 
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/others/polymorphic_storage.sh | bash
