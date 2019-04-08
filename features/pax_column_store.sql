@@ -12,8 +12,8 @@ create table coltab (i bigint, f double precision)
 
 \timing on
 
-insert into paxtab select i, i from generate_series(1, 1000000) i;
-insert into coltab select i, i from generate_series(1, 1000000) i;
+insert into paxtab select i, i from generate_series(1, 10000000) i;
+insert into coltab select i, i from generate_series(1, 10000000) i;
 
 select count(*) from paxtab;
 select count(*) from coltab;
