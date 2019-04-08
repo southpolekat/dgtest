@@ -22,7 +22,7 @@ SELECT * from tt;
 END
 
 gpscp -f ~/hostfile $f =:$f
-gpssh -f ~/hostfile chomd 755 $f
+gpssh -f ~/hostfile chmod 755 $f
 
 psql -a -d $db << END 
 CREATE EXTERNAL WEB TABLE tt2 (id int,data varchar(1)) 
