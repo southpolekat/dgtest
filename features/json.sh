@@ -3,6 +3,8 @@
 db=dgtest$$
 createdb $db
 
+psql $db -f $GPHOME/share/postgresql/contrib/json.sql
+
 psql -d $db << EOF
 
 \echo Get JSON array element
