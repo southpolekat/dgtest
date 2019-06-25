@@ -1,13 +1,16 @@
 #!/bin/bash
 
 db=dgtest$$
-
 createdb $db
+
+# hostname
+sdw1=sdw1
+sdw2=sdw2
 
 ### prepare testing directory and data
 gpssh -f ~/hostfile 'mkdir -p /tmp/dgtest'
-gpssh -h sdw1 'echo "1,a" > /tmp/dgtest/1.csv'
-gpssh -h sdw2 'echo "2,b" > /tmp/dgtest/2.csv'
+gpssh -h $sdw1 'echo "1,a" > /tmp/dgtest/1.csv'
+gpssh -h $sdw2 'echo "2,b" > /tmp/dgtest/2.csv'
 
 ### run gpfdist on segment hosts
 gpssh -f ~/hostfile '~/deepgreendb/bin/gpfdist -d /tmp/dgtest -p 8080 &'
