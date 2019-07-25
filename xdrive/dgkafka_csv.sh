@@ -2,6 +2,7 @@
 
 db=dgtest$$
 topic=customer$$
+table=customer$$
 kafka_host=localhost
 
 echo "---------- create dgkafka.toml"
@@ -26,9 +27,9 @@ xdrive_kafka_endpoint = "kafka"
     partition_num = 3
     nwriter = 2
 
-    ext_read_table = "customer_kafka_read"
-    ext_write_table = "customer_kafka_write"
-    ext_offset_table = "kafka_offset"
+    ext_read_table = "${table}_kafka_read"
+    ext_write_table = "${table}_kafka_write"
+    ext_offset_table = "${table}_kafka_offset"
 
         [[kafka.input.columns]]
         name = "c_custkey"
@@ -40,24 +41,24 @@ xdrive_kafka_endpoint = "kafka"
 
     [kafka.output]
     offset_table = "kafka_offset_summary"
-    output_table = "customer"
+    output_table = "$table"
 
     [kafka.commit]
     max_row = 10000
     minimal_interval = -1
 END
 
-echo "---------- create customer.ddl"
-cat <<END > customer.ddl
-DROP TABLE IF EXISTS customer;
-CREATE TABLE customer (
+echo "---------- create $table.ddl"
+cat <<END > $table.ddl
+DROP TABLE IF EXISTS $table;
+CREATE TABLE $table (
     C_CUSTKEY   INTEGER ,
     C_NAME      VARCHAR(25)
 ) distributed by (C_CUSTKEY);
 END
 
-echo "---------- create customer.csv"
-cat <<END > customer.csv
+echo "---------- create $table.csv"
+cat <<END > $table.csv
 1|Customer A
 2|Customer B
 3|Customer C
@@ -88,7 +89,7 @@ echo "---------- create topic $topic in kafka"
 /usr/local/kafka/bin/kafka-topics.sh --create --zookeeper $kafka_host:2181 --replication-factor 1 --partitions 3 --topic $topic 
 
 echo "---------- load data to kafka"
-~/deepgreendb/plugin/csv2kafka/csv2kafka  -d '|'  -w '|' $kafka_host:9092 $topic customer.csv
+~/deepgreendb/plugin/csv2kafka/csv2kafka  -d '|'  -w '|' $kafka_host:9092 $topic $table.csv
 
 echo "---------- createdb $db"
 createdb $db 
@@ -96,13 +97,15 @@ createdb $db
 echo "---------- dgkafka setup"
 ~/deepgreendb/plugin/dgkafka/dgkafka setup dgkafka.toml
 
-psql -d $db -f customer.ddl
+psql -d $db -f $table.ddl
 
 echo "---------- dgkafka load"
 ~/deepgreendb/plugin/dgkafka/dgkafka load -quit-at-eof dgkafka.toml
 
-psql -d $db -c "select * from customer;"
+psql -d $db -c "select * from $table;"
 
 dropdb $db 
 
 /usr/local/kafka/bin/kafka-topics.sh --delete --bootstrap-server $kafka_host:9092 --topic $topic
+
+rm -rf $table.csv $table.ddl dgkafka.toml xdrive.toml
