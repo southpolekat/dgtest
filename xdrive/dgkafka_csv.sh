@@ -1,10 +1,10 @@
 #!/bin/bash
 
-db=dgtest
+db=dgtest$$
+topic=customer$$
 kafka_host=localhost
-topic=customer
 
-echo "### create dgkafka.toml"
+echo "---------- create dgkafka.toml"
 cat <<END > dgkafka.toml
 [dgkafka]
 database = "$db"
@@ -47,7 +47,7 @@ xdrive_kafka_endpoint = "kafka"
     minimal_interval = -1
 END
 
-echo "### create customer.ddl"
+echo "---------- create customer.ddl"
 cat <<END > customer.ddl
 DROP TABLE IF EXISTS customer;
 CREATE TABLE customer (
@@ -56,14 +56,14 @@ CREATE TABLE customer (
 ) distributed by (C_CUSTKEY);
 END
 
-echo "### create customer.csv"
+echo "---------- create customer.csv"
 cat <<END > customer.csv
 1|Customer A
 2|Customer B
 3|Customer C
 END
 
-echo "### create xdrive.toml"
+echo "---------- create xdrive.toml"
 cat <<END > xdrive.toml
 [xdrive]
 dir = "/home/gpadmin/xdrive"
@@ -79,26 +79,26 @@ name = "kafkaoffset"
 argv = ["xdr_kafkaoffset/xdr_kafkaoffset", "$kafka_host:9092"]
 END
 
-echo "### create topic $topic"
-/usr/local/kafka/bin/kafka-topics.sh --create --zookeeper $kafka_host:2181 --replication-factor 1 --partitions 3 --topic $topic 
-
-echo "### load data to kafka"
-~/deepgreendb/plugin/csv2kafka/csv2kafka  -d '|'  -w '|' $kafka_host:9092 $topic customer.csv
-
-echo "### createdb $db"
-createdb $db 
-
-echo "### dgkafka setup"
-~/deepgreendb/plugin/dgkafka/dgkafka setup dgkafka.toml
-
-psql -d $db -f customer.ddl
-
-echo "### stop, deploy, start xdrive"
+echo "---------- restart xdrive"
 xdrctl stop xdrive.toml
 xdrctl deploy xdrive.toml
 xdrctl start xdrive.toml
 
-echo "### dgkafka load"
+echo "---------- create topic $topic in kafka"
+/usr/local/kafka/bin/kafka-topics.sh --create --zookeeper $kafka_host:2181 --replication-factor 1 --partitions 3 --topic $topic 
+
+echo "---------- load data to kafka"
+~/deepgreendb/plugin/csv2kafka/csv2kafka  -d '|'  -w '|' $kafka_host:9092 $topic customer.csv
+
+echo "---------- createdb $db"
+createdb $db 
+
+echo "---------- dgkafka setup"
+~/deepgreendb/plugin/dgkafka/dgkafka setup dgkafka.toml
+
+psql -d $db -f customer.ddl
+
+echo "---------- dgkafka load"
 ~/deepgreendb/plugin/dgkafka/dgkafka load -quit-at-eof dgkafka.toml
 
 psql -d $db -c "select * from customer;"
