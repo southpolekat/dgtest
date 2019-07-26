@@ -40,7 +40,11 @@ CREATE EXTERNAL TABLE tt_r
 )
 LOCATION ('xdrive://127.0.0.1:7171/local_csv/xdrive_*.csv') 
 FORMAT 'CSV';
-SELECT * FROM tt_r;
+
+SELECT gp_segment_id, * FROM tt_r;
+
+SELECT gp_segment_id, * FROM tt_r where i = 1; 
+
 END
 
 xdrctl stop /tmp/xdrive.toml
