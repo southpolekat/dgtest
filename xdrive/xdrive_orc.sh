@@ -42,6 +42,7 @@ psql -d $db -f $ddl
 psql -a -d $db << END
 insert into ext_orc_write values (1,'a'), (2,'b'), (3,'c'), (4,'d');
 select * from ext_orc_read;
+select * from ext_orc_read where id = 1;
 END
 dropdb $db
 
