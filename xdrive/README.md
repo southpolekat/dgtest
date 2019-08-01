@@ -12,5 +12,6 @@ Bash scripts to test Deepgreen DB
   * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/xdrive/xdrive_dgkafka_csv.sh | bash
 * format: json
   * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/xdrive/xdrive_dgkafka_json.sh | bash
-### [Plugin: Parquet](http://vitessedata.com/products/deepgreen-db/xdrive/plugin-orc-parquet/)
+### [Plugin: Orc/Parquet](http://vitessedata.com/products/deepgreen-db/xdrive/plugin-orc-parquet/)
 * curl https://raw.githubusercontent.com/southpolekat/dgtest/master/xdrive/xdrive_parquet.sh | bash
+* curl https://raw.githubusercontent.com/southpolekat/dgtest/master/xdrive/xdrive_orc.sh | bash
