@@ -5,6 +5,8 @@
 
 db=dgtest$$
 createdb $db
+sdw1=sdw1   # hostname of sdw1
+sdw2=sdw2   # hostname of sdw2
 
 bucket=vd-tmp
 region=us-east-1
@@ -15,16 +17,14 @@ cat <<END > /tmp/xdrive.toml
 [xdrive]
 dir = "/tmp/xdrive"
 port = 7171 
-host = ["sdw1", "sdw2"]
+host = ["$sdw1", "$sdw2"]
 
 [[xdrive.mount]]
 name = "s3"
 argv = ["xdr_s3/xdr_s3", "csv", "$bucket", "$region", "", "$folder"]
 END
 
-gpssh -h sdw1 'pkill -9 xdrive'
-gpssh -h sdw2 'pkill -9 xdrive'
-
+xdrctl stop /tmp/xdrive.toml
 xdrctl deploy /tmp/xdrive.toml
 xdrctl start /tmp/xdrive.toml
 gpssh -f ~/hostfile pidof xdrive
