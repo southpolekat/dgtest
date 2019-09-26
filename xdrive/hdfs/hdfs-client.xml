@@ -1,0 +1,33 @@
+<configuration>
+
+<property>
+	<name>hadoop.security.authentication</name>
+    <value>simple</value>
+</property>
+
+<property>
+	<name>com.vitessedata.xdrive.security.user.name</name>
+    <value>hadoop</value>
+</property>
+
+<property>
+  <name>fs.default.name</name>
+	<value>hdfs://10.240.0.63:9000</value>
+</property>
+
+<property>
+	<name>dfs.replication</name>
+	<value>1</value>
+</property>
+
+<property>
+	<name>dfs.name.dir</name>
+    <value>file:///home/hadoop/hadoopdata/hdfs/namenode</value>
+</property>
+
+<property>
+	<name>dfs.data.dir</name>
+	<value>file:///home/hadoop/hadoopdata/hdfs/datanode</value>
+</property>
+
+</configuration>

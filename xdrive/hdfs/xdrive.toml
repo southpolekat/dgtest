@@ -1,0 +1,24 @@
+[xdrive]
+dir = "/home/gpadmin/test_hdfs3/xdrive" 
+port = 7171
+host = [  "localhost"  ]
+
+[[xdrive.mount]]
+name = "hdfs3_csv"                
+argv = ["xdr_hdfs/xdr_hdfs",             
+     "csv",                     
+     "10.240.0.63",            
+     "9000",                    
+     "/dw/data",                
+     ]
+env = ["LIBHDFS3_CONF=/home/gpadmin/test_hdfs3/hdfs-client.xml"]
+
+[[xdrive.mount]]
+name = "hdfs3_parquet"
+argv = ["/usr/bin/java", "-Xmx1G", "-cp", "jars/vitessedata-file-plugin.jar",  "com.vitessedata.xdrive.parquet.Main", "hdfs", "/dw/data" , "10.240.0.63", "9000"]
+  env = ["HDFS_CLIENT_CONF=/home/gpadmin/test_hdfs3/hdfs-client.xml"]
+
+[[xdrive.mount]]
+name = "hdfs3_orc"
+argv = ["/usr/bin/java", "-Xmx1G", "-cp", "jars/vitessedata-file-plugin.jar",  "com.vitessedata.xdrive.orc.Main", "hdfs", "/dw/data" , "10.240.0.63", "9000"]
+  env = ["HDFS_CLIENT_CONF=/home/gpadmin/test_hdfs3/hdfs-client.xml"]
