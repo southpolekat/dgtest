@@ -22,3 +22,7 @@ argv = ["/usr/bin/java", "-Xmx1G", "-cp", "jars/vitessedata-file-plugin.jar",  "
 name = "hdfs3_orc"
 argv = ["/usr/bin/java", "-Xmx1G", "-cp", "jars/vitessedata-file-plugin.jar",  "com.vitessedata.xdrive.orc.Main", "hdfs", "/dw/data" , "10.240.0.63", "9000"]
   env = ["HDFS_CLIENT_CONF=/home/gpadmin/test_hdfs3/hdfs-client.xml"]
+
+[[xdrive.mount]]
+name = "hbase"
+argv = ["xdr_hbase/xdr_hbase", "10.240.0.63", "hadoop", ",", "&"]
