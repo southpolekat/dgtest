@@ -3,9 +3,6 @@
 db=dgtest$$
 ddl=ext_tables.ddl
 
-sdw1=sdw1
-sdw2=sdw2
-
 echo "---------- create $ddl"
 cat <<END > $ddl
 drop external table if exists ext_orc_write;
@@ -27,7 +24,7 @@ cat <<END > /tmp/xdrive.toml
 [xdrive]
 dir = "/tmp/xdrive"
 port = 7171
-host = ["$sdw1", "$sdw2"]
+host = ["localhost"]
 
 [[xdrive.mount]]
 name = "local_orc"
@@ -49,5 +46,5 @@ select * from ext_orc_read where id = 1;
 END
 dropdb $db
 
-xdrctl stop xdrive.toml
-rm $ddl data_*.orc xdrive.toml
+xdrctl stop /tmp/xdrive.toml
+rm $ddl /tmp/data_*.orc /tmp/xdrive.toml
