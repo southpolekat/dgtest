@@ -23,9 +23,9 @@ FORMAT 'SPQ';
 END
 
 echo "---------- create xdrive.toml"
-cat <<END > xdrive.toml
+cat <<END > /tmp/xdrive.toml
 [xdrive]
-dir = "/home/gpadmin/xdrive"
+dir = "/tmp/xdrive"
 port = 7171
 host = ["$sdw1", "$sdw2"]
 
@@ -36,9 +36,9 @@ argv = ["/usr/bin/java", "-Xmx1G", "-cp", "jars/vitessedata-file-plugin.jar",  "
 END
 
 echo "---------- restart xdrive"
-xdrctl stop xdrive.toml
-xdrctl deploy xdrive.toml
-xdrctl start xdrive.toml
+xdrctl stop /tmp/xdrive.toml
+xdrctl deploy /tmp/xdrive.toml
+xdrctl start /tmp/xdrive.toml
 
 createdb $db
 psql -d $db -f $ddl
