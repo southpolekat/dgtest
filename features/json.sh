@@ -3,9 +3,12 @@
 db=dgtest$$
 createdb $db
 
-psql $db -f $GPHOME/share/postgresql/contrib/json.sql
+if [ -f $GPHOME/share/postgresql/contrib/json.sql ];
+then
+	psql $db -f $GPHOME/share/postgresql/contrib/json.sql
+fi
 
-psql -d $db << EOF
+psql -a -d $db << EOF
 
 \echo Get JSON array element
 select '[1,2,3]'::json->2;
