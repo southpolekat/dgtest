@@ -3,6 +3,9 @@
 db=dgtest$$
 ddl=ext_tables.ddl
 
+sdw1=sdw1
+sdw2=sdw2
+
 echo "---------- create $ddl"
 cat <<END > $ddl
 drop external table if exists ext_parquet_write;
@@ -24,7 +27,7 @@ cat <<END > xdrive.toml
 [xdrive]
 dir = "/home/gpadmin/xdrive"
 port = 7171
-host = ["localhost"]
+host = ["$sdw1", "$sdw2"]
 
 [[xdrive.mount]]
 name = "local_parquet"
