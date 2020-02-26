@@ -2,6 +2,10 @@
 
 # Get the AWS access key from https://console.aws.amazon.com/iam/home?#/security_credentials
 # Create ~/.aws/credentials 
+# [default]
+# aws_access_key_id = ??? 
+# aws_secret_access_key = ??? 
+# chmod 600 ~/.aws/credentials
 
 db=dgtest$$
 createdb $db
