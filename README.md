@@ -13,4 +13,4 @@ Bash scripts to test Deepgreen DB
 * Modules:
   * [pgcrypto](https://github.com/southpolekat/dgtest/tree/master/pgcrypto)
   * [postgis](https://github.com/southpolekat/dgtest/tree/master/postgis)
-
+* Others:
