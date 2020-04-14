@@ -1,0 +1,19 @@
+[xdrive]
+dir = "/data/xdrive"
+port = 7171
+host = [ "localhost" ]
+
+[[xdrive.xhost]]
+name = "arrow"
+bin = "xhost_arrow"
+
+### s3pool
+[[xdrive.xhost]]
+name = "s3pool"
+bin = "s3pool"
+argv = ["-p", "8787", "-D", "/data/s3pool_cache"]
+pidfile = "/data/s3pool_cache/s3pool.8787.pid"
+
+[[xdrive.mount]]
+name = "vd-s3-tmp"
+argv = ["xdr_s3pool/xdr_s3pool", "csv", "8787"]
