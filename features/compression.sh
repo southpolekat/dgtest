@@ -1,9 +1,9 @@
 #!/bin/bash
 
-db=dgtest$$
-createdb $db
+db=dgtest
 
-sql=/tmp/dgtest$$.sql
+sql=/tmp/dgtest_compression.sql
+
 echo "\timing on" > $sql
 
 compresstypes=(none zlib zstd lz4)
@@ -24,14 +24,13 @@ distributed by (i);
 
 insert into tt_$ct select i, 'user '||i from generate_series(1, $max) i;
 
-select sum(length(t)) from tt_$ct;
+select sum(i), sum(length(t)) from tt_$ct;
 
 select pg_size_pretty(pg_relation_size('tt_$ct'));
 
 EOF
 done
 
-psql -d $db -f $sql
+psql -a -d $db -f $sql
 
-dropdb $db
 rm $sql
