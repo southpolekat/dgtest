@@ -13,7 +13,7 @@ for ct in ${compresstypes[*]}
 do
 cat >> $sql  << EOF
 
-\echo ========== Compress Type is $ct
+\set ON_ERROR_STOP true
 
 create temp table tt_$ct (
     i int,

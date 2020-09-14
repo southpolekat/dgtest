@@ -6,6 +6,8 @@ dg setup -decimal $db
 
 psql -a -d $db << EOF 
 
+\set ON_ERROR_STOP true
+
 create temp table tt_decimal (
 	i	integer,
 	f	double precision,

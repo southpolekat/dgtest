@@ -1,7 +1,6 @@
 #!/bin/bash
 
-db=dgtest$$
-createdb $db
+db=dgtest
 
 if [ -f $GPHOME/share/postgresql/contrib/json.sql ];
 then
@@ -9,6 +8,8 @@ then
 fi
 
 psql -a -d $db << EOF
+
+\set ON_ERROR_STOP true
 
 \echo Get JSON array element
 select '[1,2,3]'::json->2;
@@ -28,13 +29,10 @@ select '{"a":[1,2,3],"b":[4,5,6]}'::json#>'{a,2}';
 \echo Get JSON object at specified path as text
 select '{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}';
 
-create temp table tt(i int, j json) distributed by (i);
+create temp table tt_json(i int, j json) distributed by (i);
 
-insert into tt values (1,'[1,2,3]'), (2,'[4,5,6,7]');
+insert into tt_json values (1,'[1,2,3]'), (2,'[4,5,6,7]');
 
-select i,j,j->2,json_array_length(j) from tt;
+select i,j,j->2,json_array_length(j) from tt_json;
 
 EOF
-
-dropdb $db
-
