@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 db=dgtest
 
 sql=/tmp/dgtest_compression.sql

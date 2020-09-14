@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 db=dgtest
 
 if [ -f $GPHOME/share/postgresql/contrib/json.sql ];

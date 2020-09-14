@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 db=dgtest
 
 psql -a -d $db << EOF
