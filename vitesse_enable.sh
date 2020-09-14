@@ -1,12 +1,8 @@
 #!/bin/bash
 
-db=dgtest$$
-
-createdb $db
+db=dgtest
 
 psql -a -d $db << EOF
-
-show vitesse.version;
 
 create table tt as
     select i::bigint as i, i::double precision as f
@@ -22,5 +18,3 @@ set vitesse.enable=1;
 select count(*), sum(i), avg(i) from tt;
 
 EOF
-
-dropdb $db
