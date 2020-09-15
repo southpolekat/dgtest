@@ -16,11 +16,12 @@ chmod 755 $f
 
 psql -a -d ${db_name} << END 
 \set ON_ERROR_STOP true
-CREATE EXTERNAL WEB TABLE tt (id int,data varchar(1)) 
+DROP EXTERNAL TABLE IF EXISTS ${db_table};
+CREATE EXTERNAL WEB TABLE ${db_table} (id int,data varchar(1)) 
 EXECUTE E'/tmp/dgtest.sh' on master
 FORMAT 'CSV'; 
 
-SELECT * from tt;
+SELECT * from ${db_table};
 END
 
 gpscp -f ~/hostfile $f =:$f
@@ -28,11 +29,12 @@ gpssh -f ~/hostfile chmod 755 $f
 
 psql -a -d ${db_name} << END 
 \set ON_ERROR_STOP true
-CREATE EXTERNAL WEB TABLE tt2 (id int,data varchar(1)) 
+DROP EXTERNAL TABLE IF EXISTS ${db_table2};
+CREATE EXTERNAL WEB TABLE ${db_table2} (id int,data varchar(1)) 
 EXECUTE E'/tmp/dgtest.sh' on host 
 FORMAT 'CSV'; 
 
-SELECT * from tt2;
+SELECT * from ${db_table2};
 END
 
 rm $f 

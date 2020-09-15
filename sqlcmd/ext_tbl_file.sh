@@ -11,6 +11,7 @@ gpssh -h $sdw2 'echo "4,d" > /tmp/dgtest_4.csv'
 
 psql -a -d ${db_name} << END 
 \set ON_ERROR_STOP true
+DROP EXTERNAL TABLE IF EXISTS ${db_table};
 CREATE EXTERNAL TABLE ${db_table} (id int,data varchar(1)) 
 LOCATION ('FILE://$sdw1:40000/tmp/dgtest_1.csv',
           'FILE://$sdw1:40001/tmp/dgtest_2.csv',
