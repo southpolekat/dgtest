@@ -2,13 +2,11 @@
 
 set -e
 
-db=dgtest
-
-ver=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
+source ../dgtest_env.sh
 
 [ $ver -eq "16" ] && exit
 
-psql -a -d $db << EOF
+psql -a -d ${db_name} << EOF
 
 \set ON_ERROR_STOP true
 

@@ -2,22 +2,22 @@
 
 set -e
 
-db=dgtest
+source ../dgtest_env.sh
 
-psql -a -d $db << EOF
+psql -a -d ${db_name} << EOF
 
 \set ON_ERROR_STOP true
 
-create temp table tt_sample (
+create temp table ${db_table} (
     i int,
     t text
 )
 distributed by (i);
 
-insert into tt_sample select i, 'text-'||i from generate_series(1, 100) i;
+insert into ${db_table} select i, 'text-'||i from generate_series(1, 100) i;
 
-select * from tt_sample limit sample 10 rows;
+select * from ${db_table} limit sample 10 rows;
 
-select * from tt_sample limit sample 10 percent;
+select * from ${db_table} limit sample 10 percent;
 
 EOF

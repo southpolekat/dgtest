@@ -2,14 +2,14 @@
 
 set -e
 
-db=dgtest
+source ../dgtest_env.sh
 
 if [ -f $GPHOME/share/postgresql/contrib/json.sql ];
 then
-	psql $db -f $GPHOME/share/postgresql/contrib/json.sql
+	psql ${db_name} -f $GPHOME/share/postgresql/contrib/json.sql
 fi
 
-psql -a -d $db << EOF
+psql -a -d ${db_name} << EOF
 
 \set ON_ERROR_STOP true
 
