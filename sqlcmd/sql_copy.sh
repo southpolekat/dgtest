@@ -1,20 +1,22 @@
 #!/bin/bash
+
+set -e
+
+source ../dgtest_env.sh
   
-db=dgtest$$
 fi=/tmp/dgtest$$_in.csv
 fo=/tmp/dgtest$$_out.csv
 
-createdb $db
-
-cat <<END >> $fi
+cat <<EOF >> $fi
 beer,50
 coffee,30
 tea,20
-END
+EOF
 
-psql -a -d $db << END
+psql -a -d ${db_name} << EOF
+\set ON_ERROR_STOP true
 
-create table drinks (
+create temp table drinks (
     name text,
     price numeric 
 )
@@ -26,7 +28,7 @@ select * from drinks;
 
 COPY drinks to '$fo' DELIMITER ',';
 
-END
+EOF
 
 sort -o $fi $fi
 sort -o $fo $fo
@@ -34,5 +36,3 @@ sort -o $fo $fo
 diff -s $fi $fo
 
 rm -f $fi $fo
-
-dropdb $db
