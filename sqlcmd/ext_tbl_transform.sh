@@ -31,6 +31,7 @@ cat $yml
 gpssh -f ~/hostfile  "source ~/deepgreendb/greenplum_path.sh; gpfdist -p 8999 -c $yml 2>&1 > /tmp/dgtest.log &"
 
 psql -a -d $db <<END
+\set ON_ERROR_STOP true
 CREATE EXTERNAL TABLE get_df 
 (Filesystem text,
  K_blocks int,

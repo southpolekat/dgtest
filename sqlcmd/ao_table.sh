@@ -5,8 +5,7 @@ set -e
 source ../dgtest_env.sh
 
 psql -a -d ${db_name} << EOF
-
-source ../dgtest_env.sh
+\set ON_ERROR_STOP true
 
 drop table if exists ${db_table}_heap;   -- Normal heap table
 drop table if exists ${db_table}_ao;     -- Append-only table
