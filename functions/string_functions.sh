@@ -2,17 +2,15 @@
 
 set -e
 
-ver=$(../dg_major_version.sh)
+source ../dgtest_env.sh
 
 [ $ver -eq "16" ] && exit
 
-db=dgtest
-
 # Install LEFT and RIGHT function
 
-psql -d $db -f ~/deepgreendb/share/postgresql/contrib/dgx.sql
+psql -d ${db_name} -f ~/deepgreendb/share/postgresql/contrib/dgx.sql
 
-psql -a -d $db << END
+psql -a -d ${db_name} << END
 
 SELECT right('abcde',3);
 SELECT left('abcde',3); 
