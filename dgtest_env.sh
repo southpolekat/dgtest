@@ -17,4 +17,8 @@ loftd_host2=mdw
 loftd_path2=/tmp/loftdata2
 loftd_port2=8788
 
+# hostname of segment 1 and segment 2
+sdw1=sdw1
+sdw2=sdw2
+
 ver=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
