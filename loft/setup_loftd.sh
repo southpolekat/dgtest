@@ -6,7 +6,7 @@ source ../dgtest_env.sh
 
 [ $ver -ne "16" ] && exit
 
-[ $(pidof loftd) ] && kill $(pidof loftd) 
+[ $(pidof -s loftd) ] && kill $(pidof loftd) 
 
 mkdir -p ${loftd_path}
 
