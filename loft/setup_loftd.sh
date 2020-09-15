@@ -2,23 +2,14 @@
 
 set -e
 
-ver=$(../dg_major_version.sh)
+source ../dgtest_env.sh
+
 [ $ver -ne "16" ] && exit
 
-loft_port=${1:-8787}
-loft_path=${2:-/tmp/loftdata}
-clean_up=${3:-1}
+[ $(pidof loftd) ] && kill $(pidof loftd) 
 
-echo ${loft_port} ${loft_path} ${clean_up}
+mkdir -p ${loftd_path}
 
-mkdir -p ${loft_path}
+echo "port=${loftd_port}" > ${loftd_path}/loftd.conf
 
-echo "port=${loft_port}" > ${loft_path}/loftd.conf
-
-loftd -D $loft_path
-
-[ $clean_up -ne 1 ] && exit
-
-pid=$(pidof loftd)
-kill $pid
-rm -rf ${loft_path}
+loftd -D $loftd_path
