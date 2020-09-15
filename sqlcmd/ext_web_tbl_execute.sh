@@ -1,9 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-db=dgtest$$
+set -e
+
+source ../dgtest_env.sh
+
 f=/tmp/dgtest.sh
-
-createdb $db
 
 cat >$f <<END
 #!/bin/bash
@@ -13,7 +14,8 @@ END
 
 chmod 755 $f
 
-psql -a -d $db << END 
+psql -a -d ${db_name} << END 
+\set ON_ERROR_STOP true
 CREATE EXTERNAL WEB TABLE tt (id int,data varchar(1)) 
 EXECUTE E'/tmp/dgtest.sh' on master
 FORMAT 'CSV'; 
@@ -24,7 +26,8 @@ END
 gpscp -f ~/hostfile $f =:$f
 gpssh -f ~/hostfile chmod 755 $f
 
-psql -a -d $db << END 
+psql -a -d ${db_name} << END 
+\set ON_ERROR_STOP true
 CREATE EXTERNAL WEB TABLE tt2 (id int,data varchar(1)) 
 EXECUTE E'/tmp/dgtest.sh' on host 
 FORMAT 'CSV'; 
@@ -34,6 +37,3 @@ END
 
 rm $f 
 gpssh -f ~/hostfile rm $f
-
-dropdb $db
-
