@@ -9,6 +9,8 @@ db_user=gpadmin
 db_schema=public
 db_table=dgtest_tt
 db_table2=dgtest_tt2
+db_ext_table=dgtest_ext
+db_ext_table2=dgtest_ext2
 
 loftd_host=mdw
 loftd_path=/tmp/loftdata
