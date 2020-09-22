@@ -26,8 +26,12 @@ loftd_port2=8788
 
 xdrive_port=7171
 xdrive_path=/tmp/xdrive
+xdrive_conf=/tmp/xdrive.toml
+xdrive_data=/tmp/data
 
 s3pool_port=12345
 s3pool_path=/tmp/s3pool
+
+hostfile=~/hostfile
 
 ver=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
