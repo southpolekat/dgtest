@@ -35,3 +35,7 @@ s3pool_path=/tmp/s3pool
 hostfile=~/hostfile
 
 ver=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
+
+function dglog {
+	echo "##### [$(date +%T)] $@"
+}

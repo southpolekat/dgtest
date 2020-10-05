@@ -3,6 +3,7 @@
 source ../dgtest_env.sh
 
 format=${1:-csv} 	# csv, parquet, spq, orc
+
 if [ ${format} == "csv" ]; then
 	ddl_format="CSV"
 else
@@ -12,28 +13,37 @@ fi
 mkdir -p ${xdrive_path}
 mkdir -p ${xdrive_data}
 
-### Create xdrive config file
+dglog Create xdrive config file
 cat <<EOF > ${xdrive_conf} 
 [xdrive]
 dir = "/tmp/xdrive"
 port = 7171 
 host = ["$sdw1", "$sdw2"]
 
-[[xdrive.xhost]]
-name = "arrow"
-bin = "xhost_arrow"
-
 [[xdrive.mount]]
 name = "local_${format}"
 argv = ["xdr_fs/xdr_fs", "$(echo ${format} | tr '[A-Z]' '[a-z]')", "${xdrive_data}"]
 EOF
+
+if [ ${format} == "spq" ] || [ ${format} == "parquet" ] 
+then
+cat <<EOF >> ${xdrive_conf}
+[[xdrive.xhost]]
+name = "arrow"
+bin = "xhost_arrow"
+EOF
+fi
+
 cat ${xdrive_conf}
 
+dglog xdrive stop, deplay and start
 xdrctl stop ${xdrive_conf} 
 xdrctl deploy ${xdrive_conf} 
 xdrctl start ${xdrive_conf} 
+dglog pid of xdrive
 gpssh -f ${hostfile} pidof xdrive
 
+dglog delete data directory ${xdrive_data}
 gpssh -f ${hostfile} "rm -rf ${xdrive_data}"
 gpssh -f ${hostfile} "mkdir -p ${xdrive_data}"
 
@@ -60,6 +70,8 @@ drop external table ${db_ext_table};
 drop external table ${db_ext_table2};
 EOF
 
+dglog clean up
 xdrctl stop ${xdrive_conf}
+sleep 5
 rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}
 gpssh -f ${hostfile} "rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}"
