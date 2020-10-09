@@ -26,7 +26,7 @@ argv = ["xdr_s3/xdr_s3",
 	"${aws_s3_bucket_name}",
 	"${aws_s3_bucket_region}",
 	"/tmp/",
-	"${aws_s3_bucket_path}"]
+	"/${aws_s3_bucket_path}"]
 env = [
 	"AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}",
 	"AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"]

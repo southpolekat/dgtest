@@ -34,6 +34,14 @@ s3pool_path=/tmp/s3pool
 
 hostfile=~/hostfile
 
+# EXPORT AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+aws_s3_bucket_name=vd-s3-tmp
+aws_s3_bucket_path=dgtest
+aws_s3_bucket_region=us-east-1
+
+s3pool_port=12345
+s3pool_path=/tmp/s3pool
+
 ver=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
 
 function dglog {
