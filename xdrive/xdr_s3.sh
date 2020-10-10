@@ -16,7 +16,7 @@ dglog Create xdrive config file
 cat <<EOF > ${xdrive_conf} 
 [xdrive]
 dir = "/tmp/xdrive"
-port = 7171 
+port = ${xdrive_port} 
 host = ["$sdw1", "$sdw2"]
 
 [[xdrive.mount]]
@@ -47,14 +47,14 @@ drop external table if exists ${db_ext_table};
 drop external table if exists ${db_ext_table2}; 
 
 CREATE WRITABLE EXTERNAL TABLE ${db_ext_table} (i int)
-LOCATION ('xdrive://127.0.0.1:7171/s3_${format}/xdrive_#SEGID#.${format}') 
+LOCATION ('xdrive://127.0.0.1:${xdrive_port}/s3_${format}/xdrive_#SEGID#.${format}') 
 FORMAT '${ddl_format}';
 \d+ ${db_ext_table}
 
 insert into ${db_ext_table} select i::int from generate_series(1,10) i;
 
 CREATE EXTERNAL TABLE ${db_ext_table2} (i int)
-LOCATION ('xdrive://127.0.0.1:7171/s3_${format}/xdrive_#SEGID#.${format}*') 
+LOCATION ('xdrive://127.0.0.1:${xdrive_port}/s3_${format}/xdrive_#SEGID#.${format}*') 
 FORMAT '${ddl_format}';
 \d+ ${db_ext_table2}
 

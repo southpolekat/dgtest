@@ -16,7 +16,7 @@ dglog Create xdrive config file
 cat <<EOF > ${xdrive_conf} 
 [xdrive]
 dir = "/tmp/xdrive"
-port = 7171 
+port = ${xdrive_port} 
 host = ["$sdw1", "$sdw2"]
 
 [[xdrive.xhost]]
@@ -59,12 +59,12 @@ CREATE TEMP TABLE tmp (
 ) distributed randomly;
 
 CREATE WRITABLE EXTERNAL TABLE ${db_ext_table} (LIKE tmp) 
-LOCATION ('xdrive://127.0.0.1:7171/${aws_s3_bucket_name}/${aws_s3_bucket_path}/xdrive_#SEGID#.${format}') 
+LOCATION ('xdrive://127.0.0.1:${xdrive_port}/${aws_s3_bucket_name}/${aws_s3_bucket_path}/xdrive_#SEGID#.${format}') 
 FORMAT '${ddl_format}';
 \d+ ${db_ext_table}
 
 CREATE EXTERNAL TABLE ${db_ext_table2} (LIKE tmp)
-LOCATION ('xdrive://127.0.0.1:7171/${aws_s3_bucket_name}/${aws_s3_bucket_path}/xdrive_#SEGID#.${format}*') 
+LOCATION ('xdrive://127.0.0.1:${xdrive_port}/${aws_s3_bucket_name}/${aws_s3_bucket_path}/xdrive_#SEGID#.${format}*') 
 FORMAT '${ddl_format}';
 \d+ ${db_ext_table2}
 
