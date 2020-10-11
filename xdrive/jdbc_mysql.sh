@@ -8,7 +8,7 @@ MYSQL_DATABASE=my_dgtest
 MYSQL_USER=my_user
 MYSQL_PASSWORD=changeme2
 MYSQL_TABLE=my_test_table
-MYSQL_JAR=/usr/share/java/mysql.jar
+MYSQL_JAR=/usr/share/java/mysql.jar		# install on Ubuntu 16.04 : sudo apt install libmysql-java
 
 mysql_cmd="mysql --host=${MYSQL_HOST} --port=${MYSQL_PORT} --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ${MYSQL_DATABASE}"
 
