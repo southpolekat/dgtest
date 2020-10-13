@@ -5,6 +5,7 @@ source ../dgtest_env.sh
 format=${1:-csv} 	# csv, parquet, spq, orc, par
 
 [ ${format} == "par" ] && [ ${ver} -eq 18 ] && [ ${ver_minor} -lt 34 ] && exit
+[ ${format} == "par" ] && [ ${ver} -eq 16 ] && exit
 
 if [ ${format} == "csv" ]; then
 	ddl_format="CSV"
