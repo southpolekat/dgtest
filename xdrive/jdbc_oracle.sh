@@ -5,9 +5,9 @@ source ../dgtest_env.sh
 ORACLE_HOST=oracle1
 ORACLE_PORT=1521
 ORACLE_SERVICE=ORCLCDB.localdomain
-ORACLE_USER=dummy
-ORACLE_PASSWORD=dummy
-ORACLE_TABLE=test
+ORACLE_USER=test_user
+ORACLE_PASSWORD=test_passwd
+ORACLE_TABLE=test_table
 ORACLE_JAR=/home/gpadmin/ojdbc8.jar	# download from Oracle		 
 
 oracle_cmd="oracle --host=${ORACLE_HOST} --port=${ORACLE_PORT} --user=${ORACLE_USER} --password=${ORACLE_PASSWORD} ${ORACLE_DATABASE}"
