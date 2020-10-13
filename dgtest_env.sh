@@ -43,6 +43,7 @@ s3pool_port=12345
 s3pool_path=/tmp/s3pool
 
 ver=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
+ver_minor=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f2 -d '.')
 
 function dglog {
 	echo "##### [$(date +%T)] $@"
