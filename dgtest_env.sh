@@ -28,6 +28,7 @@ xdrive_port=7171
 xdrive_path=/tmp/xdrive
 xdrive_conf=/tmp/xdrive.toml
 xdrive_data=/tmp/data
+xdrive_mount=mnt
 
 s3pool_port=12345
 s3pool_path=/tmp/s3pool
@@ -42,9 +43,26 @@ aws_s3_bucket_region=us-east-1
 s3pool_port=12345
 s3pool_path=/tmp/s3pool
 
+MYSQL_HOST=mysql1
+MYSQL_PORT=3306
+MYSQL_DATABASE=test_db
+MYSQL_USER=test_user
+MYSQL_PASSWORD=test_passwd
+MYSQL_TABLE=test_table
+MYSQL_JAR=/usr/share/java/mysql.jar     # install on Ubuntu 16.04 : sudo apt install libmysql-java
+
+ORACLE_HOST=oracle1
+ORACLE_PORT=1521
+ORACLE_SERVICE=ORCLCDB.localdomain
+ORACLE_USER=test_user
+ORACLE_PASSWORD=test_passwd
+ORACLE_TABLE=test_table
+ORACLE_JAR=/home/gpadmin/ojdbc8.jar     # download from Oracle  
+
 ver=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
 ver_minor=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f2 -d '.')
 
 function dglog {
+	echo
 	echo "##### [$(date +%T)] $@"
 }
