@@ -14,9 +14,6 @@ else
 	ddl_format="SPQ"
 fi
 
-mkdir -p ${xdrive_path}
-mkdir -p ${xdrive_data}
-
 dglog Create xdrive config file
 cat <<EOF > ${xdrive_conf} 
 [xdrive]
@@ -44,11 +41,12 @@ dglog xdrive stop, deplay and start
 xdrctl stop ${xdrive_conf} 
 xdrctl deploy ${xdrive_conf} 
 xdrctl start ${xdrive_conf} 
+
 dglog pid of xdrive
 gpssh -f ${hostfile} pidof xdrive
 
-dglog delete data directory ${xdrive_data}
-gpssh -f ${hostfile} "rm -rf ${xdrive_data}"
+dglog prepare directories
+gpssh -f ${hostfile} "mkdir -p ${xdrive_path}"
 gpssh -f ${hostfile} "mkdir -p ${xdrive_data}"
 
 max=1000000
@@ -87,6 +85,5 @@ EOF
 
 dglog clean up
 xdrctl stop ${xdrive_conf}
-sleep 5
-rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}
-gpssh -f ${hostfile} "rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}"
+#rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}
+#gpssh -f ${hostfile} "rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}"
