@@ -17,6 +17,11 @@ case ${src} in
       CON_STR="jdbc:oracle:thin:${ORACLE_USER}/${ORACLE_PASSWORD}@//${ORACLE_HOST}:${ORACLE_PORT}/${ORACLE_SERVICE}"
       TABLE=${ORACLE_TABLE}
 		;;
+   db2)
+      JAR_NAME=db2jcc-db2jcc4.jar
+      JAR_PATH=${DB2_JAR}
+      CON_STR="jdbc:db2://${DB2_HOST}:${DB2_PORT}/${DB2_DATABASE}:user=${DB2_USER};password=${DB2_PASSWORD};"
+      TABLE=${DB2_TABLE}
 esac
 
 dglog Create xdrive config file
