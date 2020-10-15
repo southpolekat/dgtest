@@ -65,8 +65,12 @@ LOCATION ('xdrive://127.0.0.1:${xdrive_port}/${xdrive_mount}/${TABLE}')
 FORMAT 'SPQ';
 \d+ ${db_ext_table2}
 
+\timing
 insert into ${db_ext_table} select i::int from generate_series(1,5) i;
-SELECT gp_segment_id, * FROM ${db_ext_table2} order by i;
+SELECT * FROM ${db_ext_table2} order by i limit 5;
+SELECT * FROM ${db_ext_table2} where i = 3;
+SELECT sum(i) FROM ${db_ext_table2} ;
+SELECT count(i) FROM ${db_ext_table2} ;
 
 drop external table ${db_ext_table};
 drop external table ${db_ext_table2};
