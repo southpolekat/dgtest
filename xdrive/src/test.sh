@@ -1,5 +1,9 @@
 #!/bin/bash 
 
+echo test Postgres jdbc connection
+javac TestConPostgres.java
+java -cp .:/home/gpadmin/postgresql-42.2.1.jar TestConPostgres
+
 echo test mysql jdbc connection
 javac TestConMysql.java
 java -cp .:/usr/share/java/mysql.jar TestConMysql
