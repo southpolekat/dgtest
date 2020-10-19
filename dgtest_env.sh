@@ -67,6 +67,14 @@ DB2_PASSWORD=test_passwd
 DB2_TABLE=test_table
 DB2_JAR=/home/gpadmin/db2jcc-db2jcc4.jar # download from https://repo1.maven.org/maven2/com/ibm/db2/jcc/db2jcc/db2jcc4/db2jcc-db2jcc4.jar
 
+POSTGRES_HOST=my_pg9
+POSTGRES_PORT=5432
+POSTGRES_USER=test_user
+POSTGRES_PASSWORD=test_passwd
+POSTGRES_DATABASE=test_db
+POSTGRES_TABLE=test_table
+POSTGRES_JAR=/home/gpadmin/postgresql-42.2.1.jar
+
 ver=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
 ver_minor=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f2 -d '.')
 
