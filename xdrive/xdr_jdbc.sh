@@ -2,7 +2,8 @@
 
 source ../dgtest_env.sh
 
-src=${1:-mysql} 	# mysql, oracle 
+src=${1:-mysql} 	# mysql, oracle, db2, postgres 
+max=${2:-10}      # number of records to insert and select
 
 case ${src} in 
 	mysql)
@@ -22,6 +23,13 @@ case ${src} in
       JAR_PATH=${DB2_JAR}
       CON_STR="jdbc:db2://${DB2_HOST}:${DB2_PORT}/${DB2_DATABASE}:user=${DB2_USER};password=${DB2_PASSWORD};"
       TABLE=${DB2_TABLE}
+      ;;
+   postgres)
+      JAR_NAME=postgresql-42.2.1.jar
+      JAR_PATH=${POSTGRES_JAR}
+      CON_STR="jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?user=${POSTGRES_USER}&password=${POSTGRES_PASSWORD}&stringtype=unspecified"
+      TABLE=${POSTGRES_TABLE}
+      ;;
 esac
 
 dglog Create xdrive config file
@@ -34,6 +42,7 @@ host = ["$sdw1", "$sdw2"]
 [[xdrive.mount]]
 name = "${xdrive_mount}"
 argv = ["/usr/bin/java",
+        "-Xmx1G",
         "-classpath",
 	"jars/${JAR_NAME}:jars/vitessedata-db-plugin.jar",
         "com.vitessedata.xdrive.jdbc.Main"]
@@ -52,30 +61,45 @@ xdrctl start ${xdrive_conf}
 dglog pid of xdrive
 gpssh -f ${hostfile} pidof xdrive
 
-dglog create a soft link to ${JAR_PATH} 
-gpssh -f ${hostfile} ln -s ${JAR_PATH} ${xdrive_path}/plugin/jars/
+dglog copy ${JAR_PATH} 
+gpssh -f ${hostfile} cp ${JAR_PATH} ${xdrive_path}/plugin/jars/
 
 psql -d ${db_name} << EOF
 \set ON_ERROR_STOP true
 drop external table if exists ${db_ext_table}; 
 drop external table if exists ${db_ext_table2}; 
 
-CREATE WRITABLE EXTERNAL TABLE ${db_ext_table} (i int)
+CREATE TEMP table tmp (
+   i int,
+   a text,
+   d double precision,
+   t timestamp
+) distributed randomly;
+
+CREATE WRITABLE EXTERNAL TABLE ${db_ext_table} (LIKE tmp)
 LOCATION ('xdrive://127.0.0.1:${xdrive_port}/${xdrive_mount}/${TABLE}') 
 FORMAT 'SPQ';
 \d+ ${db_ext_table}
 
-CREATE EXTERNAL TABLE ${db_ext_table2} (i int)
+CREATE EXTERNAL TABLE ${db_ext_table2} (LIKE tmp)
 LOCATION ('xdrive://127.0.0.1:${xdrive_port}/${xdrive_mount}/${TABLE}') 
 FORMAT 'SPQ';
 \d+ ${db_ext_table2}
 
 \timing
-insert into ${db_ext_table} select i::int from generate_series(1,5) i;
+insert into ${db_ext_table} select 
+   i::int,
+   md5(random()::text),
+   random(),
+   now()
+from generate_series(1,$max) i;
+
 SELECT * FROM ${db_ext_table2} order by i limit 5;
-SELECT * FROM ${db_ext_table2} where i = 3;
-SELECT sum(i) FROM ${db_ext_table2} ;
+SELECT * FROM ${db_ext_table2} where i = 1;
 SELECT count(i) FROM ${db_ext_table2} ;
+SELECT sum(i), sum(d) FROM ${db_ext_table2} ;
+
+CREATE TEMP TABLE tmp2 AS SELECT * FROM ${db_ext_table2} distributed randomly;
 
 drop external table ${db_ext_table};
 drop external table ${db_ext_table2};

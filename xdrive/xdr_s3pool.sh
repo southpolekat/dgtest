@@ -59,7 +59,7 @@ gpssh -f ${hostfile} pidof s3pool
 
 dglog clear old files in s3 
 
-max=1000000
+max=10
 psql -d ${db_name} << EOF
 \set ON_ERROR_STOP true
 drop external table if exists ${db_ext_table}; 
@@ -84,9 +84,9 @@ FORMAT '${ddl_format}';
 \timing
 insert into ${db_ext_table} select i::int, i::text, now() from generate_series(1,$max) i;
 
-SELECT * FROM ${db_ext_table2} order by i limit 5;
+--SELECT * FROM ${db_ext_table2} order by i limit 5;
 SELECT count(i) FROM ${db_ext_table2} ;
-SELECT sum(i) FROM ${db_ext_table2} ;
+--SELECT sum(i) FROM ${db_ext_table2} ;
 
 drop external table ${db_ext_table};
 drop external table ${db_ext_table2};

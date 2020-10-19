@@ -10,7 +10,7 @@ class TestConPostgres{
             );  
 
          Statement stmt=con.createStatement();  
-         ResultSet rs=stmt.executeQuery("select * from test_table");  
+         ResultSet rs=stmt.executeQuery("select * from test_table where i = 3");  
          while(rs.next())  
             System.out.println(rs.getInt(1));  
          con.close();  
