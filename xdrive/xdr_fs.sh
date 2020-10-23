@@ -86,4 +86,4 @@ EOF
 dglog clean up
 xdrctl stop ${xdrive_conf}
 #rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}
-#gpssh -f ${hostfile} "rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}"
+gpssh -f ${hostfile} "rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}"
