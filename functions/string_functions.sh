@@ -6,6 +6,7 @@ source ../dgtest_env.sh
 
 dglog Test string_agg
 psql -a -d ${db_name} << END
+\set ON_ERROR_STOP true
 CREATE TEMP table tmp (t text) distributed randomly;
 INSERT INTO tmp values ('a'), ('b'), ('c');
 SELECT string_agg(t) from tmp;
@@ -16,6 +17,7 @@ dglog Test LEFT and RIGHT
 [ $ver -eq "16" ] && exit
 psql -d ${db_name} -f ~/deepgreendb/share/postgresql/contrib/dgx.sql
 psql -a -d ${db_name} << END
+\set ON_ERROR_STOP true
 SELECT right('abcde',3);
 SELECT left('abcde',3); 
 END
