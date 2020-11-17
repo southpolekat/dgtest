@@ -46,7 +46,7 @@ dglog prepare directories
 gpssh -f ${hostfile} "mkdir -p ${s3pool_path}"
 gpssh -f ${hostfile} "mkdir -p ${xdrive_path}"
 
-dglog xdrive stop, deplay and start
+dglog xdrive stop, deploy and start
 xdrctl stop ${xdrive_conf}
 xdrctl deploy ${xdrive_conf}
 xdrctl start ${xdrive_conf}

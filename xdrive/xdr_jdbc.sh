@@ -53,7 +53,7 @@ cat ${xdrive_conf}
 dglog prepare directory
 gpssh -f ${hostfile} mkdir -p ${xdrive_path}
 
-dglog xdrive stop, deplay and start
+dglog xdrive stop, deploy and start
 xdrctl stop ${xdrive_conf} 
 xdrctl deploy ${xdrive_conf} 
 xdrctl start ${xdrive_conf} 
@@ -101,6 +101,6 @@ SELECT sum(i), sum(d) FROM ${db_ext_table2} ;
 
 CREATE TEMP TABLE tmp2 AS SELECT * FROM ${db_ext_table2} distributed randomly;
 
-drop external table ${db_ext_table};
-drop external table ${db_ext_table2};
+--drop external table ${db_ext_table};
+--drop external table ${db_ext_table2};
 EOF
