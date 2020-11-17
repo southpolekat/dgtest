@@ -75,8 +75,8 @@ POSTGRES_DATABASE=test_db
 POSTGRES_TABLE=test_table
 POSTGRES_JAR=/home/gpadmin/postgresql-42.2.1.jar
 
-ver=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
-ver_minor=$(psql -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f2 -d '.')
+ver=$(psql postgres -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
+ver_minor=$(psql postgres -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f2 -d '.')
 
 function dglog {
 	echo
