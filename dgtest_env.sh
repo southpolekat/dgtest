@@ -2,6 +2,8 @@
 
 set -e
 
+num_host=$(psql -t postgres -c "select count(distinct hostname) from gp_segment_configuration group by hostname;")
+
 # hostname of segment 1 and segment 2
 sdw1=sdw1
 sdw2=sdw2
@@ -29,6 +31,11 @@ xdrive_path=/tmp/xdrive
 xdrive_conf=/tmp/xdrive.toml
 xdrive_data=/tmp/data
 xdrive_mount=mnt
+if [ ${num_host} -eq 1 ]; then
+   xdrive_host="localhost"
+else
+   xdrive_host="[\"$sdw1\", \"$sdw2\"]"
+fi
 
 s3pool_port=12345
 s3pool_path=/tmp/s3pool
