@@ -19,7 +19,7 @@ cat <<EOF > ${xdrive_conf}
 [xdrive]
 dir = "/tmp/xdrive"
 port = ${xdrive_port} 
-host = ["$sdw1", "$sdw2"]
+host = ${xdrive_host}
 
 [[xdrive.mount]]
 name = "local_${format}"

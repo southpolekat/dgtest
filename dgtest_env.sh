@@ -32,7 +32,7 @@ xdrive_conf=/tmp/xdrive.toml
 xdrive_data=/tmp/data
 xdrive_mount=mnt
 if [ ${num_host} -eq 1 ]; then
-   xdrive_host="localhost"
+   xdrive_host="[\"localhost\"]"
 else
    xdrive_host="[\"$sdw1\", \"$sdw2\"]"
 fi
