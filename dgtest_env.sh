@@ -64,7 +64,7 @@ ORACLE_SERVICE=ORCLCDB.localdomain
 ORACLE_USER=test_user
 ORACLE_PASSWORD=test_passwd
 ORACLE_TABLE=test_table
-ORACLE_JAR=/home/gpadmin/ojdbc8.jar     # download from Oracle  
+ORACLE_JAR=~/ojdbc8.jar     # download from Oracle  
 
 DB2_HOST=my_db2
 DB2_PORT=50000
@@ -72,7 +72,7 @@ DB2_USER=db2inst1
 DB2_DATABASE=test_db
 DB2_PASSWORD=test_passwd
 DB2_TABLE=test_table
-DB2_JAR=/home/gpadmin/db2jcc-db2jcc4.jar # download from https://repo1.maven.org/maven2/com/ibm/db2/jcc/db2jcc/db2jcc4/db2jcc-db2jcc4.jar
+DB2_JAR=~/db2jcc-db2jcc4.jar # download from https://repo1.maven.org/maven2/com/ibm/db2/jcc/db2jcc/db2jcc4/db2jcc-db2jcc4.jar
 
 POSTGRES_HOST=my_pg9
 POSTGRES_PORT=5432
@@ -80,7 +80,7 @@ POSTGRES_USER=test_user
 POSTGRES_PASSWORD=test_passwd
 POSTGRES_DATABASE=test_db
 POSTGRES_TABLE=test_table
-POSTGRES_JAR=/home/gpadmin/postgresql-42.2.1.jar
+POSTGRES_JAR=~/postgresql-42.2.1.jar
 
 ver=$(psql postgres -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
 ver_minor=$(psql postgres -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f2 -d '.')
