@@ -2,7 +2,7 @@
 
 set -e
 
-num_host=$(psql -t postgres -c "select count(distinct hostname) from gp_segment_configuration group by hostname;")
+num_host=$(psql postgres -t -c "select count(distinct hostname) from gp_segment_configuration;")
 
 # hostname of segment 1 and segment 2
 sdw1=sdw1
