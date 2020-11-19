@@ -1,14 +1,17 @@
 #!/bin/bash
 
-db=dgtest
+source ../dgtest_env.sh
 
-createdb $db
+schema=test_schema
 
-psql -a -d $db << END
+psql -a -d ${db_name} << END
+\SET ON_ERROR_STOP ON 
 
-create schema dgtest;
+CREATE SCHEMA ${schema};
+SET SEARCH_PATH = ${schema};
 
-set search_path = dgtest;
+DROP TABLE IF EXISTS a;
+DROP TABLE IF EXISTS b;
 
 create table a as
     select i::bigint as i, i::double precision as f
@@ -22,6 +25,6 @@ create table b as
 
 END
 
-psql -A -t -d $db -c "select 'ANALYZE ' || table_schema || '.' || table_name || ';' from information_schema.tables where table_schema = 'dgtest';" | psql -a -d $db  
+psql -A -t -d ${db_name} -c "select 'ANALYZE ' || table_schema || '.' || table_name || ';' from information_schema.tables where table_schema = 'dgtest';" | psql -a -d ${db_name}  
 
-dropdb $db
+psql -d ${db_name} -c "DROP SCHEMA ${schema} CASCADE;"
