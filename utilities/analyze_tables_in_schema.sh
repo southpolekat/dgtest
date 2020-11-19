@@ -25,6 +25,6 @@ create table b as
 
 END
 
-psql -A -t -d ${db_name} -c "select 'ANALYZE ' || table_schema || '.' || table_name || ';' from information_schema.tables where table_schema = 'dgtest';" | psql -a -d ${db_name}  
+psql -a -A -t -d ${db_name} -c "select 'ANALYZE ' || table_schema || '.' || table_name || ';' from information_schema.tables where table_schema = '${schema}';" | psql -a -d ${db_name}  
 
 psql -d ${db_name} -c "DROP SCHEMA ${schema} CASCADE;"
