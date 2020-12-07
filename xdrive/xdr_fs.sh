@@ -45,11 +45,14 @@ xdrctl start ${xdrive_conf}
 dglog pid of xdrive
 gpssh -f ${hostfile} pidof xdrive
 
+dglog clear data
+gpssh -f ${hostfile} "rm -rf ${xdrive_data}"
+
 dglog prepare directories
 gpssh -f ${hostfile} "mkdir -p ${xdrive_path}"
 gpssh -f ${hostfile} "mkdir -p ${xdrive_data}"
 
-max=1000000
+max=10
 
 psql -e -d ${db_name} << EOF
 \set ON_ERROR_STOP true
@@ -57,9 +60,18 @@ drop external table if exists ${db_ext_table};
 drop external table if exists ${db_ext_table2}; 
 
 CREATE TEMP TABLE tmp (
-        i int,
-        a text,
-        t timestamp
+     i int,
+     t_smallint smallint,
+     t_bigint bigint,
+     t_serial serial,
+     t_bigserial bigserial,
+     t_text text,
+     t_timestamp timestamp,
+     t_real real,
+     t_double double precision,
+     t_decimal decimal(34,4),	
+     t_numeric numeric(34,4),
+     t_boolean boolean
 ) distributed randomly;
 
 CREATE WRITABLE EXTERNAL TABLE ${db_ext_table} (LIKE tmp)
@@ -74,16 +86,31 @@ FORMAT '${ddl_format}';
 \d+ ${db_ext_table2}
 
 \timing
-INSERT INTO  ${db_ext_table} SELECT i::int, i::text, now() from generate_series(1,$max) i;
-SELECT * FROM ${db_ext_table2} order by i limit 5;
+INSERT INTO  ${db_ext_table} 
+SELECT 
+   i, 
+   i,
+   i::bigint * 1000000000,
+   i,
+   i::bigint * 1000000000,
+   'abc-' || i::text, 
+   now() + (i || ' seconds')::interval,
+   i + 0.1234,
+   i + 0.1234,
+   i + 0.1234,
+   i + 0.1234,
+   mod(i,2)::boolean
+FROM generate_series(1,$max) i;
+
+SELECT * FROM ${db_ext_table2} order by 1 limit 5;
 SELECT sum(i) FROM ${db_ext_table2} ;
 SELECT count(i) FROM ${db_ext_table2} ;
 
-drop external table ${db_ext_table};
-drop external table ${db_ext_table2};
+--drop external table ${db_ext_table};
+--drop external table ${db_ext_table2};
 EOF
 
 dglog clean up
 xdrctl stop ${xdrive_conf}
 #rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}
-gpssh -f ${hostfile} "rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}"
+#gpssh -f ${hostfile} "rm -rf ${xdrive_path} ${xdrive_data} ${xdrive_conf}"
