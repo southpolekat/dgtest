@@ -6,6 +6,9 @@ format=${1:-orc} 	# orc, parquet
 
 ddl_format="SPQ"
 
+dglog clear xdrive and data
+gpssh -f ${hostfile} "rm -rf ${xdrive_data} ${xdrive_path}"
+
 dglog Create xdrive config file
 cat <<EOF > ${xdrive_conf} 
 [xdrive]
