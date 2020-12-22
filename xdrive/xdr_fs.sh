@@ -14,6 +14,9 @@ else
 	ddl_format="SPQ"
 fi
 
+extension=${format}
+[ ${format} == "par" ] && extension="parquet"
+
 dglog Create xdrive config file
 cat <<EOF > ${xdrive_conf} 
 [xdrive]
@@ -75,13 +78,13 @@ CREATE TEMP TABLE tmp (
 ) distributed randomly;
 
 CREATE WRITABLE EXTERNAL TABLE ${db_ext_table} (LIKE tmp)
-LOCATION ('xdrive://127.0.0.1:${xdrive_port}/local_${format}/xdrive_#SEGID#.${format}') 
+LOCATION ('xdrive://127.0.0.1:${xdrive_port}/local_${format}/xdrive_#SEGID#.${extension}') 
 FORMAT '${ddl_format}';
 \d+ ${db_ext_table}
 
 
 CREATE EXTERNAL TABLE ${db_ext_table2} (lIKE tmp)
-LOCATION ('xdrive://127.0.0.1:${xdrive_port}/local_${format}/xdrive_#SEGID#.${format}*') 
+LOCATION ('xdrive://127.0.0.1:${xdrive_port}/local_${format}/xdrive_#SEGID#.${extension}*') 
 FORMAT '${ddl_format}';
 \d+ ${db_ext_table2}
 
