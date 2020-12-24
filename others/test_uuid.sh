@@ -1,14 +1,24 @@
-create schema dgtest;
-set search_path = dgtest;
+#!/bin/bash
 
-CREATE TABLE contacts (
-    id uuid ,
-    name VARCHAR NOT NULL
+source ../dgtest_env.sh
+
+psql -e -d ${db_name} << EOF
+\set ON_ERROR_STOP true
+
+--CREATE LANGUAGE plpythonu;
+
+CREATE OR REPLACE FUNCTION gen_uuid ()
+RETURNS VARCHAR(36)
+AS \$$
+import uuid
+return str(uuid.uuid4())
+\$$ LANGUAGE plpythonu;
+
+CREATE TEMP TABLE ${db_table} (
+    id uuid 
 ) distributed by (id);
 
-insert into contacts values ('40e6215d-b5c6-4896-987c-f30f3678f608', 'Andy');
-insert into contacts values ('6ecd8c99-4036-403d-bf84-cf8400f67836', 'Billy');
+INSERT INTO ${db_table} select gen_uuid()::uuid from generate_series(1,10);
 
-select * from contacts;
-
-DROP SCHEMA dgtest cascade;
+SELECT * FROM ${db_table};
+EOF
