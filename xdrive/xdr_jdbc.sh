@@ -2,7 +2,7 @@
 
 source ../dgtest_env.sh
 
-src=${1:-mysql} 	# mysql, oracle, db2, postgres 
+src=${1:-mysql} 	# mysql, oracle, db2, postgresi, mssql
 max=${2:-10}      # number of records to insert and select
 
 case ${src} in 
@@ -30,6 +30,11 @@ case ${src} in
       CON_STR="jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?user=${POSTGRES_USER}&password=${POSTGRES_PASSWORD}&stringtype=unspecified"
       TABLE=${POSTGRES_TABLE}
       ;;
+   mssql)
+      JAR_NAME=mssql-jdbc-8.4.1.jre8.jar
+      JAR_PATH=${MSSQL_JAR}
+      CON_STR="jdbc:sqlserver://${MSSQL_HOST}:${MSSQL_PORT};databaseName=${MSSQL_DATABASE};user=${MSSQL_USER};password=${MSSQL_PASSWORD}"
+      TABLE=${MSSQL_TABLE}
 esac
 
 dglog Create xdrive config file
@@ -72,8 +77,7 @@ drop external table if exists ${db_ext_table2};
 CREATE TEMP table tmp (
    i int,
    a text,
-   d double precision,
-   t timestamp
+   d double precision
 ) distributed randomly;
 
 CREATE WRITABLE EXTERNAL TABLE ${db_ext_table} (LIKE tmp)
@@ -90,14 +94,13 @@ FORMAT 'SPQ';
 insert into ${db_ext_table} select 
    i::int,
    md5(random()::text),
-   random(),
-   now()
+   random()
 from generate_series(1,$max) i;
 
 SELECT * FROM ${db_ext_table2} order by i limit 5;
 SELECT * FROM ${db_ext_table2} where i = 1;
 SELECT count(i) FROM ${db_ext_table2} ;
-SELECT sum(i), sum(d) FROM ${db_ext_table2} ;
+--SELECT sum(i), sum(d) FROM ${db_ext_table2} ;
 
 CREATE TEMP TABLE tmp2 AS SELECT * FROM ${db_ext_table2} distributed randomly;
 
