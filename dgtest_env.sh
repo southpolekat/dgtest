@@ -82,6 +82,14 @@ POSTGRES_DATABASE=test_db
 POSTGRES_TABLE=test_table
 POSTGRES_JAR=~/postgresql-42.2.1.jar
 
+MSSQL_HOST=my_mssql
+MSSQL_PORT=1433
+MSSQL_USER=sa
+MSSQL_PASSWORD=Test_Passwd123
+MSSQL_DATABASE=test_db
+MSSQL_TABLE=test_table
+MSSQL_JAR=~/mssql-jdbc-8.4.1.jre8.jar
+
 ver=$(psql postgres -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f1 -d '.')
 ver_minor=$(psql postgres -t -c "show vitesse.version" | cut -f4 -d ' ' | cut -f2 -d '.')
 
