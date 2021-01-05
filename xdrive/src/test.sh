@@ -23,6 +23,11 @@ case $db in
 		javac TestConDb2.java
 		java -cp .:/home/gpadmin/db2jcc-db2jcc4.jar TestConDb2
 		;;
+     mssql | all )
+          echo test Mssql jdbc connection
+          javac TestConMssql.java
+          java -cp .:/home/gpadmin/mssql-jdbc-8.4.1.jre8.jar TestConMssql
+          ;;
 esac
 
 rm *.class
