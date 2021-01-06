@@ -2,7 +2,7 @@
 
 source ../dgtest_env.sh
 
-format=${1:-csv} 	# csv, parquet, spq, orc, par
+format=${1:-par} 	# csv, parquet, spq, orc, par
 
 [ ${format} == "par" ] && [ ${ver} -eq 18 ] && [ ${ver_minor} -lt 34 ] && exit
 [ ${format} == "par" ] && [ ${ver} -eq 16 ] && exit
@@ -55,7 +55,19 @@ dglog prepare directories
 gpssh -f ${hostfile} "mkdir -p ${xdrive_path}"
 gpssh -f ${hostfile} "mkdir -p ${xdrive_data}"
 
-max=10
+max=9
+
+if [ ${format} == "par" ]
+then
+     extra_type="
+     f_interval interval,
+     f_uuid uuid,
+     "
+     extra_data="
+     (i || ' months ' || i || ' days ' || i || ' seconds')::interval,
+     ('12345678-1234-1234-1234-12345678901' || i)::uuid,
+     "
+fi
 
 psql -e -d ${db_name} << EOF
 \set ON_ERROR_STOP true
@@ -64,17 +76,18 @@ drop external table if exists ${db_ext_table2};
 
 CREATE TEMP TABLE tmp (
      i int,
-     t_smallint smallint,
-     t_bigint bigint,
-     t_serial serial,
-     t_bigserial bigserial,
-     t_text text,
-     t_timestamp timestamp,
-     t_real real,
-     t_double double precision,
-     t_decimal decimal(34,4),	
-     t_numeric numeric(34,4),
-     t_boolean boolean
+     f_smallint smallint,
+     f_bigint bigint,
+     f_serial serial,
+     f_bigserial bigserial,
+     f_text text,
+     f_timestamp timestamp,
+     f_real real,
+     f_double double precision,
+     f_decimal decimal(34,4),	
+     f_numeric numeric(34,4),
+     ${extra_type}
+     f_boolean boolean
 ) distributed randomly;
 
 CREATE WRITABLE EXTERNAL TABLE ${db_ext_table} (LIKE tmp)
@@ -102,6 +115,7 @@ SELECT
    i + 0.1234,
    i + 0.1234,
    i + 0.1234,
+   ${extra_data}
    mod(i,2)::boolean
 FROM generate_series(1,$max) i;
 
