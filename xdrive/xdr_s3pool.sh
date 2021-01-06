@@ -2,7 +2,7 @@
 
 source ../dgtest_env.sh
 
-format=${1:-csv} 	# csv, par, spq, orc, parquet
+format=${1:-par} 	# csv, par, spq, orc, parquet
 
 [ ${format} == "par" ] && [ ${ver} -eq 18 ] && [ ${ver_minor} -lt 34 ] && exit
 [ ${ver} -eq 16 ] && exit
@@ -60,18 +60,38 @@ gpssh -f ${hostfile} pidof xdrive
 dglog pid of s3pool 
 gpssh -f ${hostfile} pidof s3pool 
 
-dglog clear old files in s3 
+if [ ${format} == "par" ]
+then
+     extra_type="
+     f_interval interval,
+     f_uuid uuid,
+     "
+     extra_data="
+     (i || ' months ' || i || ' days ' || i || ' seconds')::interval,
+     ('12345678-1234-1234-1234-12345678901' || i)::uuid,
+     "
+fi
 
-max=10
+max=9
 psql -d ${db_name} << EOF
 \set ON_ERROR_STOP true
 drop external table if exists ${db_ext_table}; 
 drop external table if exists ${db_ext_table2}; 
 
 CREATE TEMP TABLE tmp (
-	i int,
-	a text,
-	t timestamp
+     i int,
+     f_smallint smallint,
+     f_bigint bigint,
+     f_serial serial,
+     f_bigserial bigserial,
+     f_text text,
+     f_timestamp timestamp,
+     f_real real,
+     f_double double precision,
+     f_decimal decimal(34,4), 
+     f_numeric numeric(34,4),
+     ${extra_type}
+     f_boolean boolean
 ) distributed randomly;
 
 CREATE WRITABLE EXTERNAL TABLE ${db_ext_table} (LIKE tmp) 
@@ -85,9 +105,24 @@ FORMAT '${ddl_format}';
 \d+ ${db_ext_table2}
 
 \timing
-insert into ${db_ext_table} select i::int, i::text, now() from generate_series(1,$max) i;
+INSERT INTO  ${db_ext_table} 
+SELECT 
+   i, 
+   i,
+   i::bigint * 1000000000,
+   i,
+   i::bigint * 1000000000,
+   'abc-' || i::text, 
+   now() + (i || ' seconds')::interval,
+   i + 0.1234,
+   i + 0.1234,
+   i + 0.1234,
+   i + 0.1234,
+   ${extra_data}
+   mod(i,2)::boolean
+FROM generate_series(1,$max) i;
 
---SELECT * FROM ${db_ext_table2} order by i limit 5;
+SELECT * FROM ${db_ext_table2} order by i limit 5;
 SELECT count(i) FROM ${db_ext_table2} ;
 --SELECT sum(i) FROM ${db_ext_table2} ;
 
@@ -97,6 +132,7 @@ EOF
 
 dglog clean up
 xdrctl stop ${xdrive_conf}
+dglog clear old files in s3 
 PYTHONPATH= aws s3 rm --recursive s3://${aws_s3_bucket_name}/${aws_s3_bucket_path}
 #rm -rf ${xdrive_path} ${s3pool_path} ${xdrive_conf}
 #gpssh -f ${hostfile} "rm -rf ${xdrive_path} ${s3pool_path} ${xdrive_conf}"
