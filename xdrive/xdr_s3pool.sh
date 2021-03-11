@@ -5,7 +5,6 @@ source ../dgtest_env.sh
 format=${1:-par} 	# csv, par, spq, orc, parquet
 
 [ ${format} == "par" ] && [ ${ver} -eq 18 ] && [ ${ver_minor} -lt 34 ] && exit
-[ ${ver} -eq 16 ] && exit
 
 if [ ${format} == "csv" ]; then
 	ddl_format="CSV"
@@ -62,14 +61,14 @@ gpssh -f ${hostfile} pidof s3pool
 
 if [ ${format} == "par" ]
 then
-     extra_type="
-     f_interval interval,
-     f_uuid uuid,
-     "
-     extra_data="
-     (i || ' months ' || i || ' days ' || i || ' seconds')::interval,
-     ('12345678-1234-1234-1234-12345678901' || i)::uuid,
-     "
+     extra_type="f_interval interval, "
+     extra_data="(i || ' months ' || i || ' days ' || i || ' seconds')::interval,"
+fi
+
+if [ ${format} == "par" ] && [ ${ver} == "18" ]
+then
+	extra_type="$extra_type f_uuid uuid,"
+	extra_data="$extra_data ('12345678-1234-1234-1234-12345678901' || i)::uuid,"
 fi
 
 max=9
