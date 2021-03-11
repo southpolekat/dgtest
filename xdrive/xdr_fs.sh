@@ -5,8 +5,8 @@ source ../dgtest_env.sh
 format=${1:-par} 	# csv, parquet, spq, orc, par
 
 [ ${format} == "par" ] && [ ${ver} -eq 18 ] && [ ${ver_minor} -lt 34 ] && exit
-[ ${format} == "par" ] && [ ${ver} -eq 16 ] && exit
-[ ${format} == "parquet" ] && [ ${ver} -eq 16 ] && exit
+#[ ${format} == "par" ] && [ ${ver} -eq 16 ] && exit
+#[ ${format} == "parquet" ] && [ ${ver} -eq 16 ] && exit
 
 if [ ${format} == "csv" ]; then
 	ddl_format="CSV"
@@ -59,14 +59,12 @@ max=9
 
 if [ ${format} == "par" ]
 then
-     extra_type="
-     f_interval interval,
-     f_uuid uuid,
-     "
-     extra_data="
-     (i || ' months ' || i || ' days ' || i || ' seconds')::interval,
-     ('12345678-1234-1234-1234-12345678901' || i)::uuid,
-     "
+     extra_type="f_interval interval,"
+     extra_data="(i || ' months ' || i || ' days ' || i || ' seconds')::interval,"
+     if [ ${ver} == "18" ]; then
+     	extra_type="$extra_type f_uuid uuid,"
+     	extra_date="$extra_data ('12345678-1234-1234-1234-12345678901' || i)::uuid,"
+     fi
 fi
 
 psql -e -d ${db_name} << EOF

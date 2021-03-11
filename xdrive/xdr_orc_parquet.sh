@@ -42,8 +42,8 @@ dglog prepare directories
 gpssh -f ${hostfile} "mkdir -p ${xdrive_path}"
 gpssh -f ${hostfile} "mkdir -p ${xdrive_data}"
 
-max=1000000
-psql -d ${db_name} << EOF
+max=10
+psql -e -d ${db_name} << EOF
 \set ON_ERROR_STOP true
 drop external table if exists ${db_ext_table}; 
 drop external table if exists ${db_ext_table2}; 
