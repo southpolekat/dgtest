@@ -1,0 +1,8 @@
+greenplum = "127.0.0.1:5432"
+redis1 = "redis1:6379"
+redis2 = "redis2:6379"
+
+[[table]]
+	schema = "tpch"
+	name = "orders"
+	key = "o_orderkey"
