@@ -4,5 +4,9 @@ redis2 = "redis2:6379"
 
 [[table]]
 	schema = "tpch"
+	name = "region"
+
+[[table]]
+	schema = "tpch"
 	name = "orders"
 	key = "o_orderkey"
