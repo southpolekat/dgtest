@@ -63,7 +63,7 @@ then
      extra_data="(i || ' months ' || i || ' days ' || i || ' seconds')::interval,"
      if [ ${ver} == "18" ]; then
      	extra_type="$extra_type f_uuid uuid,"
-     	extra_date="$extra_data ('12345678-1234-1234-1234-12345678901' || i)::uuid,"
+     	extra_data="$extra_data ('12345678-1234-1234-1234-12345678901' || i)::uuid,"
      fi
 fi
 
