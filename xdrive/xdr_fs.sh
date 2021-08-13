@@ -64,6 +64,9 @@ then
      if [ ${ver} == "18" ]; then
      	extra_type="$extra_type f_uuid uuid,"
      	extra_data="$extra_data ('12345678-1234-1234-1234-12345678901' || i)::uuid,"
+
+	extra_type="$extra_type f_json json,"
+	extra_data="$extra_data '[1,2,3]'," 
      fi
 fi
 
@@ -83,7 +86,8 @@ CREATE TEMP TABLE tmp (
      f_real real,
      f_double double precision,
      f_decimal decimal(34,4),	
-     f_numeric numeric(34,4),
+     f_numeric numeric(34,8),
+     f_numeric2 numeric(5,4),
      ${extra_type}
      f_boolean boolean
 ) distributed randomly;
@@ -109,6 +113,7 @@ SELECT
    i::bigint * 1000000000,
    'abc-' || i::text, 
    now() + (i || ' seconds')::interval,
+   i + 0.1234,
    i + 0.1234,
    i + 0.1234,
    i + 0.1234,
